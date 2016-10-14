@@ -1,0 +1,278 @@
+
+<!-- ###################################-->
+<!-- Perfect Code Party with kaymedia -->
+<!-- ###################################-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+     <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="css/framework7.material.min.css">
+     <link rel="stylesheet" href="css/css.css">
+    <link rel="stylesheet" href="css/tambahan.css">
+     <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/jquery-ui-1.10.3.js"></script>
+    <script type="text/javascript" src="js/framework7.min.js"></script>
+    <script type="text/javascript" src="js/tambahan.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/AdminLTE.min.css">
+    <link rel="stylesheet" href="css/_all-skins.min.css">
+  <script>
+
+$(function(){
+  
+    
+    $('#textchat').html("Menyambungkan ke server ...");
+    var tinggi_lama = $('#textchat').prop('scrollHeight');
+    $('#chatme').focus();
+    function acak(){
+    return Math.ceil(Math.random() * 10000)
+  }
+  document.chating.kode.value = acak();
+
+    function refreshDiv(){
+    $.ajax({
+            url: 'http://srv.kaymedia.net/index.php/chat/ambil'
+        }).done(function(result) {
+
+      $('#textchat').html(result);
+      var tinggi_baru = $('#textchat').prop('scrollHeight');
+                            if (tinggi_baru > tinggi_lama) {
+                                $('#textchat').animate({
+                                    scrollTop: tinggi_baru
+                                }, 'normal');
+                            }
+                            ;
+     
+            window.setTimeout(refreshDiv, 3000);
+
+        });
+
+  }
+    window.setTimeout(refreshDiv, 3000);
+
+   
+
+
+});
+$(function(){  $('#send').click(function () {
+                    var message = $('#message').val();
+                    var kode = $('#kode').val();
+                    if (message !== '') {
+                        $.post("http://srv.kaymedia.net/index.php/chat/kirim", {message: message, kode : kode, jenis: 'kirim'});
+                        $('#message').val('');
+                        $('#nama').val();
+                    }
+                   
+                    return false;
+                }); });
+
+</script>
+    <style type="text/css">
+    body{
+    height:400px;
+    position: fixed;
+    bottom: 0;
+}
+.col-md-2, .col-md-10{
+    padding:0;
+}
+.panel{
+    margin-bottom: 0px;
+}
+.chat-window{
+    bottom:0;
+    position:fixed;
+    float:right;
+    margin-left:10px;
+}
+.chat-window > div > .panel{
+    border-radius: 5px 5px 0 0;
+}
+.icon_minim{
+    padding:2px 10px;
+}
+.msg_container_base{
+  background: #e5e5e5;
+  margin: 0;
+  padding: 0 10px 10px;
+  max-height:300px;
+  overflow-x:hidden;
+}
+.top-bar {
+  background: #666;
+  color: white;
+  padding: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.msg_receive{
+    padding-left:0;
+    margin-left:0;
+}
+.msg_sent{
+    padding-bottom:20px !important;
+    margin-right:0;
+}
+.messages {
+  background: white;
+  padding: 10px;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  max-width:100%;
+}
+.messages > p {
+    font-size: 13px;
+    margin: 0 0 0.2rem 0;
+  }
+.messages > time {
+    font-size: 11px;
+    color: #ccc;
+}
+.msg_container {
+    padding: 10px;
+    overflow: hidden;
+    display: flex;
+}
+img {
+    display: block;
+    width: 100%;
+}
+.avatar {
+    position: relative;
+}
+.base_receive > .avatar:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border: 5px solid #FFF;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
+
+.base_sent {
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.base_sent > .avatar:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border: 5px solid white;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    box-shadow: 1px 1px 2px rgba(black, 0.2); // not quite perfect but close
+}
+
+.msg_sent > time{
+    float: right;
+}
+
+
+
+.msg_container_base::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+.msg_container_base::-webkit-scrollbar
+{
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+.msg_container_base::-webkit-scrollbar-thumb
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+}
+
+.btn-group.dropup{
+    position:fixed;
+    left:0px;
+    bottom:0;
+}
+    </style>
+
+  </head>
+  <body>
+    <div class="statusbar-overlay"></div>
+    <div class="panel-overlay"></div>
+    <div class="panel panel-left panel-cover">
+      <div class="view navbar-fixed">
+        <div class="pages">
+          <div data-page="panel-left" class="page">
+            <div class="navbar">
+              <div class="navbar-inner">
+                <div class="center">Tentang</div>
+              </div>
+            </div>
+            <div class="page-content">
+              <div class="content-block">
+                <div class="box box-widget widget-user">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-red">
+                </div>
+                <div class="widget-user-image">
+                  <img class="img-circle" src="img/pp.jpg" alt="User Avatar">
+                </div>
+                <div class="box-footer">
+                   <h3 class="widget-user-username">Tanya Mbah</h3>
+                  <h5 class="widget-user-desc">Praktisi kekinian</h5>
+                </div>
+              </div>
+              </div>
+              <div class="content-block-title">Anak Mama Dev | Kaymedia</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="views">
+
+      <div class="view view-main">
+        <div class="pages navbar-fixed">
+          <div data-page="index" class="page">
+            <div class="navbar">
+              <div class="navbar-inner">
+                <div class="center">Konsultasi Ke Mbah</div>
+                <div class="right"><a href="#" class="open-panel link icon-only"><i class="icon icon-bars"></i></a></div>
+              </div>
+            </div>
+            <div class="page-content">
+              <div class="box-body">
+                <div id="textchat" style="max-height: 800px; max-width: 1000px; overflow: auto;">
+                <div class="box-footer">
+                    <form action=""  method="post" id="chating" name="chating">
+                    <input type="text" name="message" id="message" class="form-control" placeholder="Tanya apa lu bre.." value="" />
+                    <input type="hidden" name="kode" class="form-control" id="kode" value="" />
+                    <span class="input-group-btn">
+                    <button type="submit" id="send" name="send" style="display:none">Send</button>
+                    </span>
+                </div>
+                  </form>
+                     
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
